@@ -1,7 +1,8 @@
-#include "m-512x512.h"
+#include <stdio.h>
+#include "m-256x256.h"
 
 int main() {
-    int matrix_res[N][M] = {0};
+    double matrix_res[N][M] = {0};
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
             matrix_res[i][j] = 0;

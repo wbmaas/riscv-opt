@@ -9,6 +9,11 @@ int random_int() {
     return 1 + rand() % (9999 - 0 + 1);
 }
 
+double rand_double() {
+    double div = RAND_MAX / (9999 - (-9999));
+    return -9999 + (rand() / div);
+}
+
 int main(int argc, char *argv[]) {
     srand(time(0));
 
@@ -22,19 +27,19 @@ int main(int argc, char *argv[]) {
         cols = atoi(argv[2]);
     }
 
-    int **matrix_a = (int **)malloc(rows * sizeof(int *));
-    int **matrix_b = (int **)malloc(rows * sizeof(int *));
-    int **res = (int **)malloc(rows * sizeof(int *));
+    double **matrix_a = (double **)malloc(rows * sizeof(double *));
+    double **matrix_b = (double **)malloc(rows * sizeof(double *));
+    double **res = (double **)malloc(rows * sizeof(double *));
     for (int i = 0; i < rows; i++) {
-        matrix_a[i] = (int *)malloc(cols * sizeof(int));
-        matrix_b[i] = (int *)malloc(cols * sizeof(int));
-        res[i] = (int *)malloc(cols * sizeof(int));
+        matrix_a[i] = (double *)malloc(cols * sizeof(double));
+        matrix_b[i] = (double *)malloc(cols * sizeof(double));
+        res[i] = (double *)malloc(cols * sizeof(double));
     }
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            matrix_a[i][j] = random_int();
-            matrix_b[i][j] = random_int();
+            matrix_a[i][j] = rand_double();
+            matrix_b[i][j] = rand_double();
         }
     }
 
@@ -44,7 +49,7 @@ int main(int argc, char *argv[]) {
     for (int j = 0; j < rows; j++) {
         printf("    {");
         for (int k = 0; k < cols; k++) {
-            printf("%d", matrix_a[j][k]);
+            printf("%f", matrix_a[j][k]);
             if (k < cols - 1) {
                 printf(", ");
             }
@@ -57,7 +62,7 @@ int main(int argc, char *argv[]) {
     for (int j = 0; j < rows; j++) {
         printf("    {");
         for (int k = 0; k < cols; k++) {
-            printf("%d", matrix_b[j][k]);
+            printf("%f", matrix_b[j][k]);
             if (k < cols - 1) {
                 printf(", ");
             }
