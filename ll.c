@@ -3,17 +3,18 @@
 #include <time.h>
 
 struct Node {
-    int data;
+    double data;
     struct Node *next;
 };
 
-int random_int() {
-    return 1 + rand() % (9999 - 0 + 1);
+double rand_double() {
+    double div = RAND_MAX / (9999 - (-9999));
+    return -9999 + (rand() / div);
 }
 
-int traverseLinkedList(struct Node *head) {
+double traverseLinkedList(struct Node *head) {
     struct Node *current = head;
-    int sum = 0;
+    double sum = 0;
 
     while (current != NULL) {
         sum += current->data;
@@ -23,24 +24,43 @@ int traverseLinkedList(struct Node *head) {
     return sum;
 }
 
+struct Node *reverseList(struct Node *head) {
+    struct Node *prev = NULL;
+    struct Node *current = head;
+    struct Node *next;
+
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+
+    return prev;
+}
+
 int main() {
     srand(time(0));
-    int input_size = 1000000;
+    int ll_size = 10000;
 
     struct Node *head = (struct Node *)malloc(sizeof(struct Node));
     struct Node *n = head;
 
-    for (int i = 0; i < input_size; i++) {
+    for (int i = 0; i < ll_size; i++) {
         struct Node *node = (struct Node *)malloc(sizeof(struct Node));
-        node->data = random_int();
+        node->data = rand_double();
         n->next = node;
         n = node;
     }
 
     n->next = NULL;
 
-    int sum = traverseLinkedList(head);
-    printf("%d ", sum);
+    double sum = traverseLinkedList(head);
+    printf("LL sum: %f\n", sum);
+
+    printf("LL head: %f\n", head->data);
+    head = reverseList(head);
+    printf("LL new head: %f\n", head->data);
 
     return 0;
 }
