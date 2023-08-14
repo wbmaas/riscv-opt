@@ -1,102 +1,90 @@
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-struct TreeNode {
-    int value;
-    struct TreeNode *left;
-    struct TreeNode *right;
+struct Node {
+    int dest;
+    struct Node* next;
 };
 
-struct Item {
-    struct TreeNode *node;
-    struct Item *next;
+struct AdjList {
+    struct Node* head;
 };
 
-int TREE_DEPTH;
-struct Item *head;
-struct Item *tail;
+struct Graph {
+    int numVertices;
+    struct AdjList* array;
+};
 
-int random_int() {
-    return 1 + rand() % (9999 - 0 + 1);
+struct Graph* createGraph(int numVertices) {
+    struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
+    graph->numVertices = numVertices;
+    graph->array = (struct AdjList*)malloc(numVertices * sizeof(struct AdjList));
+
+    for (int i = 0; i < numVertices; ++i)
+        graph->array[i].head = NULL;
+
+    return graph;
 }
 
-struct TreeNode *createNode() {
-    struct TreeNode *node = (struct TreeNode *)malloc(sizeof(struct TreeNode));
-    node->value = random_int();
-    node->left = NULL;
-    node->right = NULL;
-    return node;
+void addEdge(struct Graph* graph, int src, int dest) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->dest = dest;
+    newNode->next = graph->array[src].head;
+    graph->array[src].head = newNode;
+
+    newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->dest = src;
+    newNode->next = graph->array[dest].head;
+    graph->array[dest].head = newNode;
 }
 
-void enqueue(struct TreeNode *node) {
-    struct Item *item = (struct Item *)malloc(sizeof(struct Item));
-    item->node = node;
+void bfs(struct Graph* graph, int startVertex) {
+    int* visited = (int*)malloc(graph->numVertices * sizeof(int));
+    for (int i = 0; i < graph->numVertices; ++i)
+        visited[i] = 0;
 
-    if (head == NULL) {
-        head = item;
-        tail = item;
-    } else {
-        tail->next = item;
-        tail = item;
-    }
-}
+    // Create a queue for BFS
+    int* queue = (int*)malloc(graph->numVertices * sizeof(int));
+    int front = 0, rear = 0;
 
-struct TreeNode *dequeue() {
-    if (head == NULL) {
-        printf("Queue is empty\n");
-        return NULL;
-    } else {
-        struct Item *item = head;
-        head = head->next;
-        if (head == NULL) {
-            tail = NULL;
+    visited[startVertex] = 1;
+    queue[rear++] = startVertex;
+
+    while (front != rear) {
+        int currentVertex = queue[front++];
+        // printf("%d ", currentVertex);
+
+        struct Node* temp = graph->array[currentVertex].head;
+        while (temp) {
+            int adjVertex = temp->dest;
+            if (!visited[adjVertex]) {
+                visited[adjVertex] = 1;
+                queue[rear++] = adjVertex;
+            }
+            temp = temp->next;
         }
-        struct TreeNode *node = item->node;
-        free(item);
-        return node;
     }
-}
 
-void generateTree(struct TreeNode *root, int level) {
-    if (level < TREE_DEPTH) {
-        root->left = createNode();
-        root->right = createNode();
-        level++;
-        generateTree(root->left, level);
-        generateTree(root->right, level);
-    }
+    free(visited);
+    free(queue);
 }
 
 int main() {
-    srand(time(0));
+    srand(time(NULL));
+    int numVertices = 128;
+    struct Graph* graph = createGraph(numVertices);
 
-    // Tree
-    TREE_DEPTH = 27;
-    struct TreeNode *root = createNode();
-    generateTree(root, 0);
-
-    // Queue
-    head = NULL;
-    tail = NULL;
-    enqueue(root);
-
-    while (head != NULL) {
-        struct TreeNode *node = dequeue();
-        if (node->value == 99999) {
-            printf("Value found: %p(%d)", node, node->value);
-            return 0;
-        }
-
-        if (node->left != NULL) {
-            enqueue(node->left);
-        }
-
-        if (node->right != NULL) {
-            enqueue(node->right);
+    for (int i = 0; i < numVertices; ++i) {
+        int numEdges = rand() % (numVertices - 1) + 1;
+        for (int j = 0; j < numEdges; ++j) {
+            int dest = rand() % numVertices;
+            if (dest != i)
+                addEdge(graph, i, dest);
         }
     }
+
+    bfs(graph, 0);
 
     return 0;
 }
