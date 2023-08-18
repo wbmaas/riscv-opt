@@ -41,7 +41,7 @@ struct Node *reverseList(struct Node *head) {
 
 int main() {
     srand(time(0));
-    int ll_size = 10000;
+    int ll_size = 100000;
 
     struct Node *head = (struct Node *)malloc(sizeof(struct Node));
     struct Node *n = head;

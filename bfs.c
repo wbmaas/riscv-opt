@@ -72,7 +72,7 @@ void bfs(struct Graph* graph, int startVertex) {
 
 int main() {
     srand(time(NULL));
-    int numVertices = 128;
+    int numVertices = 256;
     struct Graph* graph = createGraph(numVertices);
 
     for (int i = 0; i < numVertices; ++i) {
