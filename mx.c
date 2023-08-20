@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "m-128x128.h"
+#include "m-256x256.h"
 
 int main() {
     double matrix_res[N][M] = {0};
