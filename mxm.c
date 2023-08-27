@@ -8,32 +8,32 @@ double rand_double() {
 }
 
 int main() {
-    srand(time(0));
     int rows = 256;
     int cols = 256;
 
-    double **matrix_a = (double **)malloc(rows * sizeof(double *));
-    double **matrix_b = (double **)malloc(rows * sizeof(double *));
-    double **matrix_res = (double **)malloc(rows * sizeof(double *));
+    double *A = (double *)malloc(rows * cols * sizeof(double));
+    double *B = (double *)malloc(cols * cols * sizeof(double));
+    double *C = (double *)malloc(rows * cols * sizeof(double));
 
-    for (int i = 0; i < rows; i++) {
-        matrix_a[i] = (double *)malloc(cols * sizeof(double));
-        matrix_b[i] = (double *)malloc(cols * sizeof(double));
-        matrix_res[i] = (double *)malloc(cols * sizeof(double));
-        for (int j = 0; j < cols; j++) {
-            matrix_a[i][j] = rand_double();
-            matrix_b[i][j] = rand_double();
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            A[i * cols + j] = rand_double();
+            B[i * cols + j] = rand_double();
         }
     }
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            matrix_res[i][j] = 0;
-            for (int k = 0; k < rows; k++) {
-                matrix_res[i][j] += matrix_a[i][k] * matrix_b[k][j];
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            C[i * cols + j] = 0;
+            for (int k = 0; k < cols; ++k) {
+                C[i * cols + j] += A[i * cols + k] * B[k * cols + j];
             }
         }
     }
+
+    free(A);
+    free(B);
+    free(C);
 
     return 0;
 }
