@@ -1,11 +1,6 @@
 # Report
 
-## Questions
-
-- Which input sizes to use in each algorithm?
-- Is the sum operation needed/enough for the linked list traversal?
-
-## MIPS improvement hypotheses
+## RISCV CPU improvement
 
 running gem5:
 
