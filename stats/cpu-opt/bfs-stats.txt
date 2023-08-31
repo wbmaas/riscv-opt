@@ -1,0 +1,15 @@
+BFS- 32x32
+simSeconds=0.001403
+system.cpu.cpi=0.951513
+
+BFS- 64x64
+simSeconds=0.005008
+system.cpu.cpi=0.966207
+
+BFS- 128x128
+simSeconds=0.021128
+system.cpu.cpi=0.972995
+
+BFS- 256x256
+simSeconds=0.079327
+system.cpu.cpi=0.980658

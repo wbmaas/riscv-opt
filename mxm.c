@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
 int main() {
-    int rows = 256;
-    int cols = 256;
+    int rows = 64;
+    int cols = 64;
 
     double *A = (double *)malloc(rows * cols * sizeof(double));
     double *B = (double *)malloc(cols * cols * sizeof(double));

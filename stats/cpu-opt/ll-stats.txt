@@ -1,14 +1,14 @@
 LL - 1k
 simSeconds=0.000246
-system.cpu.cpi=0.879308
+system.cpu.cpi=0.879472
 
 LL - 10k
 simSeconds=0.002708
-system.cpu.cpi=0.986081
+system.cpu.cpi=0.986094
 
 LL - 100k
 simSeconds=0.026778
-system.cpu.cpi=0.976902
+system.cpu.cpi=0.976904
 
 LL - 300k
 simSeconds=0.080273
