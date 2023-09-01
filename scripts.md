@@ -1,24 +1,32 @@
 # Scripts
 
+## Build gem5
+```
+git clone git@github.com:gem5/gem5.git
+cd gem5
+scons build/RISCV/gem5.opt -j9
+
+```
+
 ## Compile programs
 ```
-riscv64-linux-gnu-gcc -O0 mxm.c -o bin/mxm-32 --static
-riscv64-linux-gnu-gcc -O0 mxm.c -o bin/mxm-64 --static
-riscv64-linux-gnu-gcc -O0 mxm.c -o bin/mxm-128 --static
-riscv64-linux-gnu-gcc -O0 mxm.c -o bin/mxm-256 --static
+riscv64-linux-gnu-gcc -O0 programs/mxm.c -o bin/mxm-32 --static
+riscv64-linux-gnu-gcc -O0 programs/mxm.c -o bin/mxm-64 --static
+riscv64-linux-gnu-gcc -O0 programs/mxm.c -o bin/mxm-128 --static
+riscv64-linux-gnu-gcc -O0 programs/mxm.c -o bin/mxm-256 --static
 
-riscv64-linux-gnu-gcc -O0 ll.c -o bin/ll-1k --static
-riscv64-linux-gnu-gcc -O0 ll.c -o bin/ll-10k --static
-riscv64-linux-gnu-gcc -O0 ll.c -o bin/ll-100k --static
-riscv64-linux-gnu-gcc -O0 ll.c -o bin/ll-300k --static
+riscv64-linux-gnu-gcc -O0 programs/ll.c -o bin/ll-1k --static
+riscv64-linux-gnu-gcc -O0 programs/ll.c -o bin/ll-10k --static
+riscv64-linux-gnu-gcc -O0 programs/ll.c -o bin/ll-100k --static
+riscv64-linux-gnu-gcc -O0 programs/ll.c -o bin/ll-300k --static
 
-riscv64-linux-gnu-gcc -O0 bfs.c -o bin/bfs-64 --static
-riscv64-linux-gnu-gcc -O0 bfs.c -o bin/bfs-128 --static
-riscv64-linux-gnu-gcc -O0 bfs.c -o bin/bfs-256 --static
-riscv64-linux-gnu-gcc -O0 bfs.c -o bin/bfs-512 --static
+riscv64-linux-gnu-gcc -O0 programs/bfs.c -o bin/bfs-64 --static
+riscv64-linux-gnu-gcc -O0 programs/bfs.c -o bin/bfs-128 --static
+riscv64-linux-gnu-gcc -O0 programs/bfs.c -o bin/bfs-256 --static
+riscv64-linux-gnu-gcc -O0 programs/bfs.c -o bin/bfs-512 --static
 ```
 
-## Running gem5 simulations
+## Run simulations on gem5
 ```
 time ./build/RISCV/gem5.opt -r -d out/mxm-32  --debug-flags=ExecAll ./configs/riscv/mxm-32.py  &
 time ./build/RISCV/gem5.opt -r -d out/mxm-64  --debug-flags=ExecAll ./configs/riscv/mxm-64.py  &
@@ -61,13 +69,13 @@ grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-300k/stats.txt | awk '{print 
 
 ### BFS
 ```
-echo 'BFS- 32x32' > stats/bfs-stats.txt
+echo 'BFS - 64' > stats/bfs-stats.txt
 grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-64/stats.txt | awk '{print $1 "=" $2}' >> stats/bfs-stats.txt
-echo '\nBFS- 64x64' >> stats/bfs-stats.txt
+echo '\nBFS - 128' >> stats/bfs-stats.txt
 grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-128/stats.txt | awk '{print $1 "=" $2}' >> stats/bfs-stats.txt
-echo '\nBFS- 128x128' >> stats/bfs-stats.txt
+echo '\nBFS - 256' >> stats/bfs-stats.txt
 grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-256/stats.txt | awk '{print $1 "=" $2}' >> stats/bfs-stats.txt
-echo '\nBFS- 256x256' >> stats/bfs-stats.txt
+echo '\nBFS - 512' >> stats/bfs-stats.txt
 grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-512/stats.txt | awk '{print $1 "=" $2}' >> stats/bfs-stats.txt
 ```
 

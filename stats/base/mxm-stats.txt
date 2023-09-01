@@ -11,3 +11,5 @@ simSeconds=0.222061
 system.cpu.cpi=2.331762
 
 MxM - 256x256
+simSeconds=1.805744
+system.cpu.cpi=2.381009
