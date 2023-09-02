@@ -40,43 +40,91 @@ time ./build/RISCV/gem5.opt -r -d out/bfs-64  --debug-flags=ExecAll ./configs/ri
 time ./build/RISCV/gem5.opt -r -d out/bfs-128 --debug-flags=ExecAll ./configs/riscv/bfs-128.py &
 time ./build/RISCV/gem5.opt -r -d out/bfs-256 --debug-flags=ExecAll ./configs/riscv/bfs-256.py &
 time ./build/RISCV/gem5.opt -r -d out/bfs-512 --debug-flags=ExecAll ./configs/riscv/bfs-512.py
+
+# single run
+time ./build/RISCV/gem5.opt -r -d out/cache/i8k-d32k/mxm-32   ./configs/riscv/run.py mxm-32 8kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d32k/mxm-32  ./configs/riscv/run.py mxm-32 16kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d64k/mxm-32  ./configs/riscv/run.py mxm-32 16kB 64kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d128k/mxm-32 ./configs/riscv/run.py mxm-32 16kB 128kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i32k-d32k/mxm-32  ./configs/riscv/run.py mxm-32 32kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i32k-d64k/mxm-32  ./configs/riscv/run.py mxm-32 32kB 64kB &
+
+time ./build/RISCV/gem5.opt -r -d out/cache/i8k-d32k/mxm-64   ./configs/riscv/run.py mxm-64 8kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d32k/mxm-64  ./configs/riscv/run.py mxm-64 16kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d64k/mxm-64  ./configs/riscv/run.py mxm-64 16kB 64kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d128k/mxm-64 ./configs/riscv/run.py mxm-64 16kB 128kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i32k-d32k/mxm-64  ./configs/riscv/run.py mxm-64 32kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i32k-d64k/mxm-64  ./configs/riscv/run.py mxm-64 32kB 64kB &
+
+time ./build/RISCV/gem5.opt -r -d out/cache/i8k-d32k/mxm-128   ./configs/riscv/run.py mxm-128 8kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d32k/mxm-128  ./configs/riscv/run.py mxm-128 16kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d64k/mxm-128  ./configs/riscv/run.py mxm-128 16kB 64kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d128k/mxm-128 ./configs/riscv/run.py mxm-128 16kB 128kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i32k-d32k/mxm-128  ./configs/riscv/run.py mxm-128 32kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i32k-d64k/mxm-128  ./configs/riscv/run.py mxm-128 32kB 64kB &
+
+time ./build/RISCV/gem5.opt -r -d out/cache/i8k-d32k/mxm-256   ./configs/riscv/run.py mxm-256 8kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d32k/mxm-256  ./configs/riscv/run.py mxm-256 16kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d64k/mxm-256  ./configs/riscv/run.py mxm-256 16kB 64kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i16k-d128k/mxm-256 ./configs/riscv/run.py mxm-256 16kB 128kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i32k-d32k/mxm-256  ./configs/riscv/run.py mxm-256 32kB 32kB &
+time ./build/RISCV/gem5.opt -r -d out/cache/i32k-d64k/mxm-256  ./configs/riscv/run.py mxm-256 32kB 64kB
 ```
 
 ## Extracting statistics
-### MxM
 ```
-echo 'MxM - 32x32' > stats/mxm-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/mxm-32/stats.txt | awk '{print $1 "=" $2}' >> stats/mxm-stats.txt
-echo '\nMxM - 64x64' >> stats/mxm-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/mxm-64/stats.txt | awk '{print $1 "=" $2}' >> stats/mxm-stats.txt
-echo '\nMxM - 128x128' >> stats/mxm-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/mxm-128/stats.txt | awk '{print $1 "=" $2}' >> stats/mxm-stats.txt
-echo '\nMxM - 256x256' >> stats/mxm-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/mxm-256/stats.txt | awk '{print $1 "=" $2}' >> stats/mxm-stats.txt
+# Instructions distribution
+awk '$1 ~ /:MemRead|:MemWrite|:FloatMemRead|:FloatMemWrite/ {sum += $2} END {print "Mem: " sum}' ../gem5/out-cache/mxm-256/stats.txt
+awk '$1 ~ /:FloatAdd|:FloatCvt|:FloatMult/ {sum += $2} END {print "FloatAlu: " sum}' ../gem5/out-cache/mxm-256/stats.txt
+awk '$1 ~ /:IntAlu/ {sum += $2} END {print "IntAlu: " sum}' ../gem5/out-cache/mxm-256/stats.txt
+awk '$1 ~ /:IntMult/ {sum += $2} END {print "IntMult: " sum}' ../gem5/out-cache/mxm-256/stats.txt
+awk '$1 ~ /:IntDiv/ {sum += $2} END {print "IntDiv: " sum}' ../gem5/out-cache/mxm-256/stats.txt
+awk '$1 ~ /:No_OpClass/ {sum += $2} END {print "No_Op: " sum}' ../gem5/out-cache/mxm-256/stats.txt
+awk '$1 ~ /committedInstType::total/ {print "Total: " $2}' ../gem5/out-cache/mxm-256/stats.txt
+
+awk '$1 ~ /:MemRead|:MemWrite|:FloatMemRead|:FloatMemWrite/ {sum += $2} END {print "Mem: " sum}' ../gem5/out-cache/ll-300k/stats.txt
+awk '$1 ~ /:FloatAdd|:FloatCvt|:FloatMult/ {sum += $2} END {print "FloatAlu: " sum}' ../gem5/out-cache/ll-300k/stats.txt
+awk '$1 ~ /:IntAlu/ {sum += $2} END {print "IntAlu: " sum}' ../gem5/out-cache/ll-300k/stats.txt
+awk '$1 ~ /:IntMult/ {sum += $2} END {print "IntMult: " sum}' ../gem5/out-cache/ll-300k/stats.txt
+awk '$1 ~ /:IntDiv/ {sum += $2} END {print "IntDiv: " sum}' ../gem5/out-cache/ll-300k/stats.txt
+awk '$1 ~ /:No_OpClass/ {sum += $2} END {print "No_Op: " sum}' ../gem5/out-cache/ll-300k/stats.txt
+awk '$1 ~ /committedInstType::total/ {print "Total: " $2}' ../gem5/out-cache/ll-300k/stats.txt
+
+awk '$1 ~ /:MemRead|:MemWrite|:FloatMemRead|:FloatMemWrite/ {sum += $2} END {print "Mem: " sum}' ../gem5/out-cache/bfs-512/stats.txt
+awk '$1 ~ /:FloatAdd|:FloatCvt|:FloatMult/ {sum += $2} END {print "FloatAlu: " sum}' ../gem5/out-cache/bfs-512/stats.txt
+awk '$1 ~ /:IntAlu/ {sum += $2} END {print "IntAlu: " sum}' ../gem5/out-cache/bfs-512/stats.txt
+awk '$1 ~ /:IntMult/ {sum += $2} END {print "IntMult: " sum}' ../gem5/out-cache/bfs-512/stats.txt
+awk '$1 ~ /:IntDiv/ {sum += $2} END {print "IntDiv: " sum}' ../gem5/out-cache/bfs-512/stats.txt
+awk '$1 ~ /:No_OpClass/ {sum += $2} END {print "No_Op: " sum}' ../gem5/out-cache/bfs-512/stats.txt
+awk '$1 ~ /committedInstType::total/ {print "Total: " $2}' ../gem5/out-cache/bfs-512/stats.txt
 ```
 
-### LL
 ```
-echo 'LL - 1k' > stats/ll-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-1k/stats.txt | awk '{print $1 "=" $2}' >> stats/ll-stats.txt
-echo '\nLL - 10k' >> stats/ll-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-10k/stats.txt | awk '{print $1 "=" $2}' >> stats/ll-stats.txt
-echo '\nLL - 100k' >> stats/ll-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-100k/stats.txt | awk '{print $1 "=" $2}' >> stats/ll-stats.txt
-echo '\nLL - 300k' >> stats/ll-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-300k/stats.txt | awk '{print $1 "=" $2}' >> stats/ll-stats.txt
-```
-
-### BFS
-```
-echo 'BFS - 64' > stats/bfs-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-64/stats.txt | awk '{print $1 "=" $2}' >> stats/bfs-stats.txt
-echo '\nBFS - 128' >> stats/bfs-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-128/stats.txt | awk '{print $1 "=" $2}' >> stats/bfs-stats.txt
-echo '\nBFS - 256' >> stats/bfs-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-256/stats.txt | awk '{print $1 "=" $2}' >> stats/bfs-stats.txt
-echo '\nBFS - 512' >> stats/bfs-stats.txt
-grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-512/stats.txt | awk '{print $1 "=" $2}' >> stats/bfs-stats.txt
+# Program time
+echo 'MxM - 32x32' > stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/mxm-32/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nMxM - 64x64' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/mxm-64/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nMxM - 128x128' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/mxm-128/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nMxM - 256x256' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/mxm-256/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nLL - 1k' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-1k/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nLL - 10k' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-10k/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nLL - 100k' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-100k/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nLL - 300k' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/ll-300k/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nBFS - 64' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-64/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nBFS - 128' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-128/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nBFS - 256' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-256/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
+echo '\nBFS - 512' >> stats/stats.txt
+grep -E "simSeconds|system.cpu.cpi" ../gem5/out/bfs-512/stats.txt | awk '{print $1 "=" $2}' >> stats/stats.txt
 ```
 
 # Extra experiments

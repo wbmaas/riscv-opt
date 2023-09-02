@@ -1,0 +1,47 @@
+MxM - 32x32
+simSeconds=0.001736
+system.cpu.cpi=1.130294
+
+MxM - 64x64
+simSeconds=0.019175
+system.cpu.cpi=1.595590
+
+MxM - 128x128
+simSeconds=0.222061
+system.cpu.cpi=2.331760
+
+MxM - 256x256
+simSeconds=1.805720
+system.cpu.cpi=2.380978
+
+LL - 1k
+simSeconds=0.000338
+system.cpu.cpi=1.205142
+
+LL - 10k
+simSeconds=0.003584
+system.cpu.cpi=1.304914
+
+LL - 100k
+simSeconds=0.035528
+system.cpu.cpi=1.296130
+
+LL - 300k
+simSeconds=0.106525
+system.cpu.cpi=1.295612
+
+BFS - 64
+simSeconds=0.001891
+system.cpu.cpi=1.282163
+
+BFS - 128
+simSeconds=0.006728
+system.cpu.cpi=1.298093
+
+BFS - 256
+simSeconds=0.028376
+system.cpu.cpi=1.306763
+
+BFS - 512
+simSeconds=0.106458
+system.cpu.cpi=1.316062

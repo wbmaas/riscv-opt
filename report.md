@@ -1,7 +1,7 @@
 # Improving the performance of a RISC-V processor for specific programs
 
 ## Introduction
-Welcome to the world of cutting-edge processor optimization, where the marriage of innovation and specificity paves the way for unprecedented performance gains. In the realm of computer architecture, the RISC-V processor has emerged as a versatile and open-source platform, captivating the attention of researchers and developers alike. However, as programs become increasingly intricate and varied, the need to tailor processors to cater to specific applications has become more apparent. This article delves into the captivating realm of enhancing RISC-V processor performance for specific programs, unraveling the strategies, techniques, and implications that arise when customization and efficiency intertwine. By exploring real-world examples and delving into the core concepts of micro architecture optimization, we embark on a journey to unleash the full potential of RISC-V, ushering in a new era of application-specific computational might. Join us as we unravel the intricacies of this captivating endeavor and uncover the art and science of molding processors to harmonize seamlessly with the software they execute.
+Today in the world of cutting-edge processor optimization, the marriage of innovation and specificity paves the a way for unprecedented performance gains. In the context of computer architecture, the RISC-V processor has emerged as a versatile and open-source platform, bringing the attention of researchers and developers alike. However, as programs become increasingly intricate and varied, the need to tailor processors to serve specific applications has become more apparent. This article dives into the task of enhancing RISC-V processor performance for specific programs, by deeply analyzing their behavior at runtime, and turning ideas into optimization strategies.
 
 ## Gem5 simulator
 The gem5 simulator is a versatile platform utilized for advanced research in computer-system architecture, encompassing both system-level architecture and processor micro architecture. Gem5 has several key features, including the availability of multiple interchangeable CPU models such as simple one-CPI, in-order, out-of-order, and KVM-based CPUs. Its event-driven memory system encompasses caches, snoop filters, DRAM controllers, and accommodates diverse memory types, allowing flexible arrangements to model complex cache hierarchies with heterogeneous memories. The simulator offers support for multiple instruction set architectures (ISAs) like Alpha, ARM, SPARC, MIPS, POWER, RISC-V, and x86, facilitating effective ISA decoupling from CPU models. This enables gem5 to support a range of guest platforms on various host platforms. Gem5 also accommodates homogeneous and heterogeneous multi-core systems with customizable topologies and employs cache coherence protocols for maintaining cache consistency. It possesses full-system capability for ARM, x86, RISC-V, and SPARC architectures, supporting booting of Linux, Android, and other operating systems. Additionally, gem5 operates in application-only mode, executing architecture/OS binaries through Linux emulation.
@@ -46,7 +46,7 @@ For exploration purposes we started with testing the three programs running on t
 
 ### Base CPU statistics
 We collected all the metrics for simulation, but for analytics purposes the ones that matter the most right now are the simulation seconds and cycles per instruction.
-<!-- TODO: calculate base stats with 32k/32k -->
+
 | Program | size    | simSeconds | CPI      |
 | ------- | ------- | ---------- | -------- |
 | MxM     | 32x32   | 0.001736   | 1.130370 |
@@ -62,13 +62,21 @@ We collected all the metrics for simulation, but for analytics purposes the ones
 | BFS     | 256     | 0.028382   | 1.307054 |
 | BFS     | 512     | 0.106458   | 1.316062 |
 
-<!-- TODO: ### Instruction distribution -->
+### Instruction distribution
+During the execution of the tests we were also able to collect statistics about the distribution of their instructions, that can be seen in the following table:
+
+| Program | Mem   | FloatAlu | IntAlu | IntMult | IntDiv | NoOp |
+| ------- | ----- | -------- | ------ | ------- | ------ | ---- |
+| MxM     | 44.45 | 4.45     | 46.65  | 4.43    | 0.0    | 0.0  |
+| LL      | 36.49 | 1.09     | 62.40  | 0.0     | 0.0    | 0.0  |
+| BFS     | 36.17 | 0.0      | 63.34  | 0.0     | 0.15   | 0.31 |
 
 ### Cache memory
 Its generally known that Caches play a pivotal role in modern processors by bridging the speed gap between the fast CPU and the relatively slower main RAM memory, and they are essential for improving overall system performance and efficiency.
 
 #### L1 caches
 The first strategy is to optimize the L1 cache sizes and validate if there are any performance gains that can be obtained. The base CPU has a 32k instruction cache and a 32k data cache, we performed tests with instruction caches sizes of 8k/16k/32k/64k, combining with data caches of 32k/64k/128k for all programs and the input data variants.
+
 <!-- TODO: add table with data -->
 
 With the results obtained we can observe the following:
@@ -93,7 +101,18 @@ With the results obtained we can observe the following:
 
 ### CPU execution unit improvements
 
-### RISC-V Vector extension
+2 -> 4x MinorDefaultIntFU
+1 -> 4x MinorDefaultMemFU
+1 -> 0x MinorDefaultVecFU
+decodeInputWidth=12
+executeInputWidth=6
+executeIssueLimit=4
+executeMemoryIssueLimit=4
+executeCommitLimit=4
+executeMemoryCommitLimit=4
+
+
+<!-- ### RISC-V Vector extension -->
 
 ## Results
 
