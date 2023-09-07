@@ -54,22 +54,9 @@ On Gem5, we used the base CPU model that it comes with, and the hardware specifi
 
 ### Base CPU performance stats
 To start we collected metrics for the simulation of all programs with their dataset variations, so we can better understand the runtime behavior of the programs, and propose some hypotheses. Gem5 gives us a large number of statistics about the CPU behavior during the execution, but for this research we choose to look at the stats that matter the most for our end goal which are the simulation seconds and cycles per instruction. Below are the statistics for programs running on the Base CPU model.
-<!-- TODO: use a chart -->
+
 #### Base CPU stats
-| Program | size    | simSeconds | CPI      |
-| ------- | ------- | ---------- | -------- |
-| MxM     | 32x32   | 0.001736   | 1.130370 |
-| MxM     | 64x64   | 0.019175   | 1.595599 |
-| MxM     | 128x128 | 0.222061   | 2.331762 |
-| MxM     | 256x256 | 1.805744   | 2.381009 |
-| LL      | 1k      | 0.000339   | 1.209895 |
-| LL      | 10k     | 0.003585   | 1.305191 |
-| LL      | 100k    | 0.035528   | 1.296130 |
-| LL      | 300k    | 0.106525   | 1.295612 |
-| BFS     | 64      | 0.001891   | 1.282639 |
-| BFS     | 128     | 0.006731   | 1.298649 |
-| BFS     | 256     | 0.028382   | 1.307054 |
-| BFS     | 512     | 0.106458   | 1.316062 |
+![caches](./stats/charts/base-cpu.png)
 
 #### Instruction distribution
 <!-- TODO: use a chart -->
@@ -91,7 +78,7 @@ The results obtained for the three proposed optimization strategies are describe
 ### Optimize L1 instruction and data cache sizes
 The first strategy is to optimize the L1 cache sizes and validate if there are any performance gains that can be obtained. The base CPU has a 32k instruction cache and a 32k data cache, we performed tests with instruction caches sizes of 8k/16k/32k/64k, combining with data caches of 32k/64k/128k for all programs and the input data variants.
 
-<!-- TODO: add chart with data -->
+![caches](./stats/charts/caches.png)
 
 With the results obtained we can observe the following:
 - Instruction cache adds value up until 16k, after that there were no performance gains for the all programs.
@@ -124,11 +111,13 @@ executeMemoryIssueLimit=4
 executeCommitLimit=4
 executeMemoryCommitLimit=4
 
+![caches](./stats/charts/exec-opt.png)
+![caches](./stats/charts/exec-opt-log.png)
+
 
 ## Discussion
 <!-- What is the significance of your results? – the final major section of text in the paper.  The Discussion commonly features a summary of the results that were obtained in the study, describes how those results address the topic under investigation and/or the issues that the research was designed to address, and may expand upon the implications of those findings.  Limitations and directions for future research are also commonly addressed. -->
 
-###
 ### Cost analysis
 
 ## References
