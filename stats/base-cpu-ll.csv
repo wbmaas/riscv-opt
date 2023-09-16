@@ -1,0 +1,5 @@
+icache/dcache,program,size,simSeconds
+i32k-d32k,ll,1k,0.000338
+i32k-d32k,ll,10k,0.003584
+i32k-d32k,ll,100k,0.035528
+i32k-d32k,ll,300k,0.106525

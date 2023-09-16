@@ -1,0 +1,5 @@
+icache/dcache,program,size,baseSimSeconds,simSeconds
+i16k-d32k,mxm,32x32,0.001736,0.000765
+i16k-d32k,mxm,64x64,0.019175,0.010537
+i16k-d32k,mxm,128x128,0.222061,0.141321
+i16k-d32k,mxm,256x256,1.805720,1.183030
